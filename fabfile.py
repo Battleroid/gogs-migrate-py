@@ -1,4 +1,4 @@
-import colorama
+from colorama import Fore, Back, Style
 import os
 import shutil
 import sys
@@ -79,7 +79,10 @@ def migrate(filename='migrate.cfg'):
             )
             resp_json = json.loads(resp.content)
             if 'ssh_url' not in resp_json.keys():
-                print 'Already exists, going to try pushing anyway.'
+                print Fore.WHITE, Back.RED, 'Already exists, going to try pushing anyway.'
+            else:
+                print Fore.WHITE, Back.GREEN, 'Clear to go!'
+            print Style.RESET_ALL
             ssh_url = GOGS_URL + '{}/{}'.format(GOGS_USER, repo['name'])
             
             # clone locally
