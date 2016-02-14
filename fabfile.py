@@ -61,6 +61,7 @@ def migrate(filename='migrate.cfg'):
 
     # clone github repos, create new repo on gogs, then push to gogs
     tempdir = mkdtemp()
+    added = 0
     with lcd(tempdir):
         for repo in github_repos:
             # create repo at gogs
@@ -86,6 +87,9 @@ def migrate(filename='migrate.cfg'):
             with lcd(os.path.join(tempdir, repo['name'])):
                 local('git remote add gogs {}'.format(ssh_url))
                 local('git push --all gogs')
+                added += 1
 
             # remove directory
             shutil.rmtree(os.path.join(tempdir, repo['name']))
+
+    print 'Added {} repositories'.format(added)
